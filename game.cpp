@@ -195,7 +195,7 @@ void printboard(ll board){
 
 int main(){
 
-	cout<<" --- Welcome to Tic-Tac-Toe [AUTOMATED] ---"<<endl;
+	cout<<" --- Welcome to Tic-Tac-Toe [AUTOMATED] ---\n\n Enter cell number to make your move or type hint to get recommendations.\n\n";
 	build();
 
 	ll board = 0;
