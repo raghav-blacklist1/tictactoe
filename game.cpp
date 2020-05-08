@@ -21,7 +21,7 @@
 #define bs          binary_search
 #define mp          make_pair
 #define trace(x)    cerr<<#x<<": "<<x<<" "<<endl;
-#define MAX			39366
+#define MAX			19683
 
 using namespace std;
 
@@ -32,7 +32,7 @@ ll won(ll state){
 
 	vector<ll> ar;
 
-	rep(i,0,10){
+	rep(i,0,9){
 
 		ar.pb(state%3);
 		state/=3;
@@ -53,7 +53,7 @@ ll lost(ll state){
 
 	vector<ll> ar;
 
-	rep(i,0,10){
+	rep(i,0,9){
 
 		ar.pb(state%3);
 		state/=3;
@@ -91,23 +91,23 @@ ll solve(ll state){
 	vector<ll> ar;
 
 	ll tmp = state;
+	ll turn = 0;
 
-	rep(i,0,10){
+	rep(i,0,9){
 
 		ar.pb(tmp%3);
+		if((tmp%3)!=0)	turn++;
 		tmp/=3;
 	}
 
+	turn%=2;
 	ll flag = 0;
 
 	rep(i,0,9){
 
 		if(ar[i]!=0)	continue;
-		ll turn = ar[9];
-		ll newstate = (state%cons) + ((turn+1)*pow(3ll,i));
-		if(turn == 0)	newstate += cons;
-
-		if(solve(newstate) == 0)	flag=1;
+		ll newstate = state + ((turn+1)*pow(3ll,i));
+		if(solve(newstate) == 1)	flag=1;
 	}
 
 	return states[state] = flag;
@@ -121,13 +121,11 @@ void build(){
 
 		if(won(i)){
 
-			if((i/cons)==1)	states[i]=0;
-			else	states[i]=1;
+			states[i] = 1;
 		}
 		if(lost(i)){
 
-			if((i/cons)==1)	states[i]=1;
-			else	states[i]=0;
+			states[i] = 0;
 		}
 	}
 
@@ -136,12 +134,7 @@ void build(){
 
 void hint(ll state){
 
-	//cout<<state<<endl;
-	if(states[state]==0){
-
-		cout<<"Oops, it is a losing state, your only hope is your opponent!!!"<<endl;
-		return;
-	}
+	ll turn = 0;
 
 	vector<ll> ar;
 
@@ -150,7 +143,16 @@ void hint(ll state){
 	rep(i,0,10){
 
 		ar.pb(tmp%3);
+		if(tmp%3!=0)	turn++;
 		tmp/=3;
+	}
+
+	turn%=2;
+
+	if((turn^states[state])==0){
+
+		cout<<"Oops, it is a losing state, your only hope is your opponent!!!"<<endl;
+		return;
 	}
 
 	vector<ll> ans;
@@ -158,12 +160,9 @@ void hint(ll state){
 	rep(i,0,9){
 
 		if(ar[i]!=0)	continue;
-		ll turn = state/cons;
-		ll newstate = (state%cons) + ((turn+1)*pow(3ll,i));
+		ll newstate = state + ((turn+1)*pow(3ll,i));
 
-		if(turn == 0)	newstate += cons;
-
-		if(states[newstate] == 0)	ans.pb(i);
+		if((turn^states[newstate]) == 1)	ans.pb(i);
 	}
 
 	cout<<"Place at: ";
@@ -209,13 +208,12 @@ int main(){
 		cout<<"Player "<<(turn+1)<<" make your move: ";
 		cin>>inp;
 		cout<<endl;
-		ll state = board + cons*turn;
 
 		if(inp=="exit")	return 0;
 
 		if(inp=="hint"){
 
-			hint(state);
+			hint(board);
 			flag=0;
 			continue;
 		}		
