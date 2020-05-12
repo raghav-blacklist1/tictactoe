@@ -5,8 +5,9 @@ A simple c++ game with inbuilt move recommender using basic game theory.
 ```
 -Clone this repository on your local machine
 
--make
+-Enter these commands in the terminal
 
--./build/game
+	make
+	./build/game
 
 ```
