@@ -2,208 +2,24 @@
     Author:  raghav.blacklist1
 */
 
-#include<bits/stdc++.h>
-
-#define ll          long long
-#define pb          push_back
-#define endl        '\n'
-#define ln(a,b)     ((a==(b-1))?'\n':' ')
-#define pii         pair<ll int,ll int>
-#define vi          vector<ll int>
-#define all(a)      (a).begin(),(a).end()
-#define F           first
-#define S           second
-#define sz(x)       (ll int)x.size()
-#define hell        1000000007
-#define rep(i,a,b)  for(ll int i=a;i<b;i++)
-#define lbnd        lower_bound
-#define ubnd        upper_bound
-#define bs          binary_search
-#define mp          make_pair
-#define trace(x)    cerr<<#x<<": "<<x<<" "<<endl;
-#define MAX			19683
+#include "macros.hpp"
+#include "board.hpp"
+#include "engine.hpp"
 
 using namespace std;
-
-ll cons = 19683;
-ll states[MAX];
-
-ll won(ll state){
-
-	vector<ll> ar;
-
-	rep(i,0,9){
-
-		ar.pb(state%3);
-		state/=3;
-	}
-
-	if(ar[0]==1 && ar[1]==1 && ar[2]==1)	return 1;
-	if(ar[3]==1 && ar[4]==1 && ar[5]==1)	return 1;
-	if(ar[6]==1 && ar[7]==1 && ar[8]==1)	return 1;
-	if(ar[0]==1 && ar[3]==1 && ar[6]==1)	return 1;
-	if(ar[1]==1 && ar[4]==1 && ar[7]==1)	return 1;
-	if(ar[2]==1 && ar[5]==1 && ar[8]==1)	return 1;
-	if(ar[0]==1 && ar[4]==1 && ar[8]==1)	return 1;
-	if(ar[2]==1 && ar[4]==1 && ar[6]==1)	return 1;
-	return 0;
-}
-
-ll lost(ll state){
-
-	vector<ll> ar;
-
-	rep(i,0,9){
-
-		ar.pb(state%3);
-		state/=3;
-	}
-
-	if(ar[0]==2 && ar[1]==2 && ar[2]==2)	return 1;
-	if(ar[3]==2 && ar[4]==2 && ar[5]==2)	return 1;
-	if(ar[6]==2 && ar[7]==2 && ar[8]==2)	return 1;
-	if(ar[0]==2 && ar[3]==2 && ar[6]==2)	return 1;
-	if(ar[1]==2 && ar[4]==2 && ar[7]==2)	return 1;
-	if(ar[2]==2 && ar[5]==2 && ar[8]==2)	return 1;
-	if(ar[0]==2 && ar[4]==2 && ar[8]==2)	return 1;
-	if(ar[2]==2 && ar[4]==2 && ar[6]==2)	return 1;
-	return 0;
-}
-
-ll draw(ll state){
-
-	vector<ll> ar;
-
-	rep(i,0,9){
-
-		ar.pb(state%3);
-		state/=3;
-	}
-
-	rep(i,0,9)	if(ar[i]==0)	return 0;
-	return 1;
-}
-
-ll solve(ll state){
-
-	if( states[state] != -1)	return states[state];
-
-	vector<ll> ar;
-
-	ll tmp = state;
-	ll turn = 0;
-
-	rep(i,0,9){
-
-		ar.pb(tmp%3);
-		if((tmp%3)!=0)	turn++;
-		tmp/=3;
-	}
-
-	turn%=2;
-	ll flag = 0;
-
-	rep(i,0,9){
-
-		if(ar[i]!=0)	continue;
-		ll newstate = state + ((turn+1)*pow(3ll,i));
-		if(solve(newstate) == 1)	flag=1;
-	}
-
-	return states[state] = flag;
-}
-
-void build(){
-
-	rep(i,0,MAX)	states[i] = -1;
-
-	rep(i,0,MAX){
-
-		if(won(i)){
-
-			states[i] = 1;
-		}
-		if(lost(i)){
-
-			states[i] = 0;
-		}
-	}
-
-	solve(0);
-}
-
-void hint(ll state){
-
-	ll turn = 0;
-
-	vector<ll> ar;
-
-	ll tmp = state;
-
-	rep(i,0,10){
-
-		ar.pb(tmp%3);
-		if(tmp%3!=0)	turn++;
-		tmp/=3;
-	}
-
-	turn%=2;
-
-	if((turn^states[state])==0){
-
-		cout<<"Oops, it is a losing state, your only hope is your opponent!!!"<<endl;
-		return;
-	}
-
-	vector<ll> ans;
-
-	rep(i,0,9){
-
-		if(ar[i]!=0)	continue;
-		ll newstate = state + ((turn+1)*pow(3ll,i));
-
-		if((turn^states[newstate]) == 1)	ans.pb(i);
-	}
-
-	cout<<"Place at: ";
-	rep(i,0,ans.size())	cout<<ans[i]+1<<((i==ans.size()-1)?".\n":", ");
-}
-
-void printboard(ll board){
-
-	vector<ll> ar;
-	ll tmp = board;
-	rep(i,0,9){
-
-		ar.pb(tmp%3);
-		tmp/=3;
-	}
-
-	rep(i,0,3){
-
-		rep(j,0,3){
-
-			if(ar[3*i + j]==0)	cout<<(3*i+j+1)<<' ';
-			else if(ar[3*i + j]==1) cout<<"O"<<' ';
-			else if(ar[3*i + j]==2)	cout<<"X"<<' ';
-		}
-		cout<<endl;
-	}
-	cout<<endl;
-}
 
 int main(){
 
 	cout<<" --- Welcome to Tic-Tac-Toe [AUTOMATED] ---\n\n Enter cell number to make your move or type hint to get recommendations.\n\n";
-	build();
 
-	ll board = 0;
+	Board board;
+	Engine engine;
 	ll turn = 0;
 	ll flag = 1;
 
 	while(true){
 
-		if(flag == 1)	printboard(board);
+		if(flag == 1)	board.printboard();
 		string inp;
 		cout<<"Player "<<(turn+1)<<" make your move: ";
 		cin>>inp;
@@ -213,14 +29,15 @@ int main(){
 
 		if(inp=="hint"){
 
-			hint(board);
+			vector<string> ret = engine.hint(board.bstate);
+			rep(i,0,ret.size())	cout<<ret[i]<<endl;
 			flag=0;
 			continue;
 		}		
 
 		ll num = stoi(inp);
 		vector<ll> ar;
-		ll tmp = board;
+		ll tmp = board.bstate;
 		rep(i,0,9){
 
 			ar.pb(tmp%3);
@@ -235,23 +52,23 @@ int main(){
 			continue;
 		}
 
-		board = board + ((turn+1)*pow(3ll,num-1));
+		board.bstate = board.bstate + ((turn+1)*pow(3ll,num-1));
 		turn = 1 - turn;
 		flag = 1;
 
-		if(won(board)){
+		if(board.won()){
 
 			cout<<"Player 1 Wins!!"<<endl;
 			return 0;
 		}
 
-		if(lost(board)){
+		if(board.lost()){
 
 			cout<<"Player 2 Wins!!"<<endl;
 			return 0;
 		}
 
-		if(draw(board)){
+		if(board.finish()){
 
 			cout<<"DRAW!!"<<endl;
 			return 0;
