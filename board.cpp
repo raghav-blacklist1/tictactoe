@@ -53,42 +53,42 @@ ll Board::lost(ll state){
 	return 0;
 }
 
-ll Board::draw(ll state){
+// ll Board::draw(ll state){
 
-	if(state == -1)		state = bstate;
+// 	if(state == -1)		state = bstate;
 
-	if(won(state))	return 0;
-	if(lost(state))	return 0;
+// 	if(won(state))	return 0;
+// 	if(lost(state))	return 0;
 
-	vector<ll> ar;
-	ll turn = 0;
+// 	vector<ll> ar;
+// 	ll turn = 0;
 
-	rep(i,0,9){
+// 	rep(i,0,9){
 
-		ar.pb(state%3);
-		if(state%3!=0)	turn++;
-		state/=3;
-	}
+// 		ar.pb(state%3);
+// 		if(state%3!=0)	turn++;
+// 		state/=3;
+// 	}
 
-	if(ar[0]!=1 && ar[1]!=1 && ar[2]!=1 && (((ar[0]+ar[1]+ar[2])/2) <= ((10-turn)/2)))	return 0;
-	if(ar[3]!=1 && ar[4]!=1 && ar[5]!=1 && (((ar[3]+ar[4]+ar[5])/2) <= ((10-turn)/2)))	return 0;
-	if(ar[6]!=1 && ar[7]!=1 && ar[8]!=1 && (((ar[6]+ar[7]+ar[8])/2) <= ((10-turn)/2)))	return 0;
-	if(ar[0]!=1 && ar[3]!=1 && ar[6]!=1 && (((ar[0]+ar[3]+ar[6])/2) <= ((10-turn)/2)))	return 0;
-	if(ar[1]!=1 && ar[4]!=1 && ar[7]!=1 && (((ar[1]+ar[4]+ar[7])/2) <= ((10-turn)/2)))	return 0;
-	if(ar[2]!=1 && ar[5]!=1 && ar[8]!=1 && (((ar[2]+ar[5]+ar[8])/2) <= ((10-turn)/2)))	return 0;
-	if(ar[0]!=1 && ar[4]!=1 && ar[8]!=1 && (((ar[0]+ar[4]+ar[8])/2) <= ((10-turn)/2)))	return 0;
-	if(ar[2]!=1 && ar[4]!=1 && ar[6]!=1 && (((ar[2]+ar[4]+ar[6])/2) <= ((10-turn)/2)))	return 0;
-	if(ar[0]!=2 && ar[1]!=2 && ar[2]!=2 && ((ar[0]+ar[1]+ar[2]) <= ((10-turn)/2)))	return 0;
-	if(ar[3]!=2 && ar[4]!=2 && ar[5]!=2 && ((ar[3]+ar[4]+ar[5]) <= ((10-turn)/2)))	return 0;
-	if(ar[6]!=2 && ar[7]!=2 && ar[8]!=2 && ((ar[6]+ar[7]+ar[8]) <= ((10-turn)/2)))	return 0;
-	if(ar[0]!=2 && ar[3]!=2 && ar[6]!=2 && ((ar[0]+ar[3]+ar[6]) <= ((10-turn)/2)))	return 0;
-	if(ar[1]!=2 && ar[4]!=2 && ar[7]!=2 && ((ar[1]+ar[4]+ar[7]) <= ((10-turn)/2)))	return 0;
-	if(ar[2]!=2 && ar[5]!=2 && ar[8]!=2 && ((ar[2]+ar[5]+ar[8]) <= ((10-turn)/2)))	return 0;
-	if(ar[0]!=2 && ar[4]!=2 && ar[8]!=2 && ((ar[0]+ar[4]+ar[8]) <= ((10-turn)/2)))	return 0;
-	if(ar[2]!=2 && ar[4]!=2 && ar[6]!=2 && ((ar[2]+ar[4]+ar[6]) <= ((10-turn)/2)))	return 0;
-	return 1;
+// 	if(ar[0]!=1 && ar[1]!=1 && ar[2]!=1 && (((ar[0]+ar[1]+ar[2])/2) <= ((10-turn)/2)))	return 0;
+// 	if(ar[3]!=1 && ar[4]!=1 && ar[5]!=1 && (((ar[3]+ar[4]+ar[5])/2) <= ((10-turn)/2)))	return 0;
+// 	if(ar[6]!=1 && ar[7]!=1 && ar[8]!=1 && (((ar[6]+ar[7]+ar[8])/2) <= ((10-turn)/2)))	return 0;
+// 	if(ar[0]!=1 && ar[3]!=1 && ar[6]!=1 && (((ar[0]+ar[3]+ar[6])/2) <= ((10-turn)/2)))	return 0;
+// 	if(ar[1]!=1 && ar[4]!=1 && ar[7]!=1 && (((ar[1]+ar[4]+ar[7])/2) <= ((10-turn)/2)))	return 0;
+// 	if(ar[2]!=1 && ar[5]!=1 && ar[8]!=1 && (((ar[2]+ar[5]+ar[8])/2) <= ((10-turn)/2)))	return 0;
+// 	if(ar[0]!=1 && ar[4]!=1 && ar[8]!=1 && (((ar[0]+ar[4]+ar[8])/2) <= ((10-turn)/2)))	return 0;
+// 	if(ar[2]!=1 && ar[4]!=1 && ar[6]!=1 && (((ar[2]+ar[4]+ar[6])/2) <= ((10-turn)/2)))	return 0;
+// 	if(ar[0]!=2 && ar[1]!=2 && ar[2]!=2 && ((ar[0]+ar[1]+ar[2]) <= ((10-turn)/2)))	return 0;
+// 	if(ar[3]!=2 && ar[4]!=2 && ar[5]!=2 && ((ar[3]+ar[4]+ar[5]) <= ((10-turn)/2)))	return 0;
+// 	if(ar[6]!=2 && ar[7]!=2 && ar[8]!=2 && ((ar[6]+ar[7]+ar[8]) <= ((10-turn)/2)))	return 0;
+// 	if(ar[0]!=2 && ar[3]!=2 && ar[6]!=2 && ((ar[0]+ar[3]+ar[6]) <= ((10-turn)/2)))	return 0;
+// 	if(ar[1]!=2 && ar[4]!=2 && ar[7]!=2 && ((ar[1]+ar[4]+ar[7]) <= ((10-turn)/2)))	return 0;
+// 	if(ar[2]!=2 && ar[5]!=2 && ar[8]!=2 && ((ar[2]+ar[5]+ar[8]) <= ((10-turn)/2)))	return 0;
+// 	if(ar[0]!=2 && ar[4]!=2 && ar[8]!=2 && ((ar[0]+ar[4]+ar[8]) <= ((10-turn)/2)))	return 0;
+// 	if(ar[2]!=2 && ar[4]!=2 && ar[6]!=2 && ((ar[2]+ar[4]+ar[6]) <= ((10-turn)/2)))	return 0;
+// 	return 1;
 
-}
+// }
 
 ll Board::finish(ll state){
 

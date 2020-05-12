@@ -20,7 +20,7 @@ Engine::Engine(){
 
 			states[i] = 0;
 		}
-		if(tmp.draw(i)){
+		if(tmp.finish(i)){
 
 			states[i] = 2;
 		}
@@ -46,19 +46,26 @@ ll Engine::solve(ll state){
 	}
 
 	turn%=2;
-	ll flagw = 0, flagl = 0;
+	ll calls[3] = {0};
 
 	rep(i,0,9){
 
 		if(ar[i]!=0)	continue;
 		ll newstate = state + ((turn+1)*pow(3ll,i));
 		ll ret = solve(newstate);
-		if(ret == 1)	flagw=1;
-		else if(ret == 0)	flagl=1;
+		calls[ret]++;		
 	}
 
-	if(flagw == 0 && flagl == 0)	return states[state] = 2;
-	return states[state] = flagw;
+	if((calls[0] + calls[1]) == 0)	return states[state] = 2;
+	if(turn == 0){
+
+		return states[state] = (calls[1]>0);
+	}
+	else{
+
+		return states[state] = (calls[0]==0);
+	}
+	
 }
 
 vector<string> Engine::hint(ll state){
@@ -76,6 +83,11 @@ vector<string> Engine::hint(ll state){
 	}
 
 	turn%=2;
+	if(turn == 1){
+
+		ret.pb("Hint allowed only for Player 1.");
+		return ret;
+	}
 
 	if(states[state]==2){
 
@@ -86,6 +98,7 @@ vector<string> Engine::hint(ll state){
 	if((turn==0 && states[state]==0) || (turn==1 && states[state]==1)){
 
 		ret.pb("DANGER, you may lose afterall!!!");
+		return ret;
 	}
 
 	vector<ll> ans1,ans2;
