@@ -28,21 +28,21 @@ ll play_move(ll moves, ll prev_move){
 	if(prev_move == VALID_MOVE)	board.printboard();
 	if(board.won()){
 
-			cout<<"Player 1 Wins!!"<<endl;
-			return SIGNAL_EXIT;
-		}
+		cout<<"Player 1 Wins!!"<<endl;
+		return SIGNAL_EXIT;
+	}
 
-		if(board.lost()){
+	if(board.lost()){
 
-			cout<<"Player 2 Wins!!"<<endl;
-			return SIGNAL_EXIT;
-		}
+		cout<<"Player 2 Wins!!"<<endl;
+		return SIGNAL_EXIT;
+	}
 
-		if(board.draw()){
+	if(board.draw()){
 
-			cout<<"DRAW!!"<<endl;
-			return SIGNAL_EXIT;
-		}
+		cout<<"DRAW!!"<<endl;
+		return SIGNAL_EXIT;
+	}
 
 	string inp;
 	cout<<"Player "<<((moves%2)+1)<<" make your move: ";
