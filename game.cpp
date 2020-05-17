@@ -8,72 +8,79 @@
 
 using namespace std;
 
-int main(){
+Board board;
+Engine engine;
 
-	cout<<" --- Welcome to Tic-Tac-Toe [AUTOMATED] ---\n\n Enter cell number to make your move or type hint to get recommendations.\n\n";
+void introtext(){
 
-	Board board;
-	Engine engine;
-	ll turn = 0;
-	ll flag = 1;
+	cout<<" --- Welcome to Tic-Tac-Toe [AUTOMATED] ---\n\n";
+	cout<<"Enter cell number to make your move or type hint to get recommendations.\n\n";
+}
 
-	while(true){
+void printhint(){
 
-		if(flag == 1)	board.printboard();
-		string inp;
-		cout<<"Player "<<(turn+1)<<" make your move: ";
-		cin>>inp;
-		cout<<endl;
+	vector<string> ret = engine.hint(board.bstate);
+	rep(i,0,ret.size())	cout<<ret[i]<<endl;
+}
 
-		if(inp=="exit")	return 0;
+ll play_move(ll moves, ll prev_move){
 
-		if(inp=="hint"){
-
-			vector<string> ret = engine.hint(board.bstate);
-			rep(i,0,ret.size())	cout<<ret[i]<<endl;
-			flag=0;
-			continue;
-		}		
-
-		ll num = stoi(inp);
-		vector<ll> ar;
-		ll tmp = board.bstate;
-		rep(i,0,9){
-
-			ar.pb(tmp%3);
-			tmp/=3;
-		}
-
-		if(ar[num-1]!=0){
-
-			cout<<"Already Occupied!!"<<endl;
-			flag = 0;
-			cout<<endl;
-			continue;
-		}
-
-		board.bstate = board.bstate + ((turn+1)*pow(3ll,num-1));
-		turn = 1 - turn;
-		flag = 1;
-
-		if(board.won()){
+	if(prev_move == VALID_MOVE)	board.printboard();
+	if(board.won()){
 
 			cout<<"Player 1 Wins!!"<<endl;
-			return 0;
+			return SIGNAL_EXIT;
 		}
 
 		if(board.lost()){
 
 			cout<<"Player 2 Wins!!"<<endl;
-			return 0;
+			return SIGNAL_EXIT;
 		}
 
-		if(board.finish()){
+		if(board.draw()){
 
 			cout<<"DRAW!!"<<endl;
-			return 0;
+			return SIGNAL_EXIT;
 		}
-		cout<<endl;
+
+	string inp;
+	cout<<"Player "<<((moves%2)+1)<<" make your move: ";
+	cin>>inp;
+
+	if(inp=="exit")	return SIGNAL_EXIT;
+
+	if(inp=="hint"){
+
+		if(moves%2==0)	printhint();
+		else	cout<<"Hint allowed only for Player 1."<<endl;
+		return INVALID_MOVE;
+	}
+
+	ll flag = board.move(stoi(inp));
+	if(flag == INVALID_MOVE){
+
+		cout<<"Out of Range or Already Occupied!!"<<endl;
+		return INVALID_MOVE;
+	}
+
+	return VALID_MOVE;
+
+}
+
+int main(){
+
+	introtext();
+
+	ll moves = 0;
+	ll move_state = 1;
+
+	while(true){
+
+		move_state = play_move(moves,move_state);
+
+		if(move_state == SIGNAL_EXIT)	return 0;
+		if(move_state == VALID_MOVE)	moves++;
 		
 	}
 	return 0;

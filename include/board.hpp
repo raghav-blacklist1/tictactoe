@@ -15,10 +15,10 @@ public:
 	ll bstate;
 
 	Board();
+	ll move(ll cell);
 	ll won(ll state = -1);
 	ll lost(ll state = -1);
 	ll draw(ll state = -1);
-	ll finish(ll state = -1);
 	void printboard();
 };
 

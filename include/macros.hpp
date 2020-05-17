@@ -20,6 +20,10 @@
 #define bs          binary_search
 #define mp          make_pair
 #define trace(x)    cerr<<#x<<": "<<x<<" "<<endl;
-#define MAX			19683
+
+#define MAX				19683
+#define INVALID_MOVE	0
+#define VALID_MOVE		1
+#define SIGNAL_EXIT		2
 
 #endif

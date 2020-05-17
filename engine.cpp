@@ -20,7 +20,7 @@ Engine::Engine(){
 
 			states[i] = 0;
 		}
-		if(tmp.finish(i)){
+		if(tmp.draw(i)){
 
 			states[i] = 2;
 		}
@@ -83,11 +83,6 @@ vector<string> Engine::hint(ll state){
 	}
 
 	turn%=2;
-	if(turn == 1){
-
-		ret.pb("Hint allowed only for Player 1.");
-		return ret;
-	}
 
 	if(states[state]==2){
 
